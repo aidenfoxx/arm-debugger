@@ -9,7 +9,7 @@ ASM Tool:
 - `start.(bat|sh)` - Creates a listener on port `9000` which accepts ARM instructions and returns assembly
 - `start.(bat|sh) 0x000000E0` - Decodes the supplied instruction
 
-> NOTE: Requires Ghidra's "analyzeHeadless" executable in your system path.
+> Note: Requires Ghidra's "analyzeHeadless" executable in your system path.
 
 Helper scripts:
 
