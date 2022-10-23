@@ -1,0 +1,9 @@
+# Ghidra project files
+asm-tool/decode.rep
+asm-tool/decode.gpr
+asm-tool/decode.lock
+asm-tool/decode.lock~
+
+# Generated instructions
+generated/*
+!generated/.gitkeep

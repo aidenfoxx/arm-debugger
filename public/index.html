@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <title>ARM Debugger</title>
+  <style>
+    html { font-size: 16px; }
+    label { display: block; margin-bottom: 8px; }
+    input, textarea { margin-top: 4px; font-size: .875rem; }
+    input { width: 280px; }
+
+    #container { width: 800px; margin: 0 auto; }
+    #scratchpad { width: 100%; height: 400px; }
+    #output {
+      width: 100%;
+      border: 1px solid grey;
+      background-color: #f0f0f0;
+      padding: 4px 8px;
+    }
+  </style>
+</body>
+<head>
+  <div id="container">
+    <h1>ARM Debugger:</h1>
+    <label>
+      Scratchpad:<br />
+      <textarea id="scratchpad"></textarea>
+    </label>
+    <label>
+      Binary to Hex:<br />
+      <input id="b2h-binary" maxlength="32" />
+      =
+      <input id="b2h-hex" readonly />
+    </label>
+    <label>
+      Hex to Binary:<br />
+      <input id="h2b-hex" maxlength="8" />
+      =
+      <input id="h2b-binary" readonly />
+    </label>
+    <label>
+      Swap Endianness:<br />
+      
+      <input id="se-in" maxlength="32" />
+      =
+      <input id="se-out" readonly /><br />
+      <sub>Javascript outputs big endian by default!</sub>
+    </label>
+    <label>
+      Instructions:<br />
+      <input id="instructions" maxlength="32" />
+    </label>
+    <pre id="output"></pre>
+  </div>
+  <script>
+    const updateOutput = (instructions) => {
+      if (isNaN(instructions)) {
+        instructions = 0;
+      }
+
+      instructions = parseInt(instructions, 2);
+
+      let value = `Hex: ${instructions.toString(16).padStart(8, '0')}\n`;
+      value += `ASM: ${'INVALID'}`;
+
+      document.querySelector('#output').innerHTML = value;
+    };
+
+    updateOutput();
+
+    // Event listeners
+    const SCRATCHPAD_KEY = 'scratchpad';
+
+    const scratchpad = document.querySelector('#scratchpad');
+
+    scratchpad.addEventListener('change', (e) => {
+      localStorage.setItem(SCRATCHPAD_KEY, e.target.value);
+    });
+
+    document.querySelector('#b2h-binary').addEventListener('change', (e) => {
+      const value = parseInt(e.target.value, 2);
+      if (!isNaN(value)) {
+        document.querySelector('#b2h-hex').value =
+          value.toString(16).padStart(8, '0').toUpperCase();
+      }
+    });
+
+    document.querySelector('#h2b-hex').addEventListener('change', (e) => {
+      const value = parseInt(e.target.value, 16);
+      if (!isNaN(value)) {
+        document.querySelector('#h2b-binary').value =
+          value.toString(2).padStart(32, '0');
+      }
+    });
+
+    document.querySelector('#se-in').addEventListener('change', (e) => {
+      const value = parseInt(e.target.value, 2);
+      if (!isNaN(value)) {
+        const buffer = new ArrayBuffer(4);
+        const view = new DataView(buffer);
+        view.setUint32(0, value);
+
+        document.querySelector('#se-out').value =
+          view.getUint32(0, true).toString(2).padStart(32, '0');
+      }
+    });
+
+    document.querySelector('#instructions').addEventListener('change', (e) => {
+      updateOutput(e.target.value);
+    });
+
+    scratchpad.innerHTML = localStorage.getItem(SCRATCHPAD_KEY) ?? '';
+  </script>
+  <script src="./asm.js"></script>
+</head>
+</html>
