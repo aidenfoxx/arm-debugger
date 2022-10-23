@@ -1,12 +1,11 @@
-
 import ghidra.app.util.headless.HeadlessScript;
 
+import ghidra.program.disassemble.DisassemblerContextImpl;
 import ghidra.program.model.address.Address;
-import ghidra.program.model.listing.Instruction;
-import ghidra.program.model.mem.MemoryBufferImpl;
 import ghidra.program.model.lang.InstructionPrototype;
 import ghidra.program.model.lang.UnknownInstructionException;
-import ghidra.program.disassemble.DisassemblerContextImpl;
+import ghidra.program.model.listing.Instruction;
+import ghidra.program.model.mem.MemoryBufferImpl;
 
 import sun.misc.Signal; 
 import sun.misc.SignalHandler;
@@ -36,12 +35,7 @@ public class InstructionDecode extends HeadlessScript {
 
     String[] args = getScriptArgs();
 
-    if (args[0] != null) {
-      if (args[0].equals("server")) {
-        startInstructionServer();
-        return;
-      }
-
+    if (args.length == 1) {
       int data;
 
       try {
@@ -55,7 +49,7 @@ public class InstructionDecode extends HeadlessScript {
       return;
     }
 
-    System.err.println("No instruction to decode");
+    startInstructionServer();
   }
 
   private void startInstructionServer() throws IOException {
