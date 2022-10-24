@@ -15,4 +15,4 @@ Helper scripts:
 
 - `node generate` - Generates all possible ARM instructions (15GB total files)
 - `node server` - Starts a tool for converting ARM instructions
-- `node socket` - Starts a tool for communications with the "ASM Tool" server
+- `node socket` - Starts a tool for communicating with the "ASM Tool" server
