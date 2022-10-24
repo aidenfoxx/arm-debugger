@@ -1,6 +1,6 @@
 # ARM Debugger
 
-A collection of tools for debugging ARMv4T insturctions to assembly conversion.
+A collection of tools for debugging ARMv4T insturction to assembly conversion.
 
 ## Useful things
 
