@@ -42,8 +42,8 @@ rl.on('line', (input) => {
   
   const data = parseInt(input, 16);
   const dataBytes = new Uint8Array([
-    data >>24,
-    data >>16,
+    data >> 24,
+    data >> 16,
     data >> 8,
     data
   ]);
